@@ -1,8 +1,10 @@
 import javax.persistence.*;
+import java.util.ArrayList;
 
 @Entity
 @Table(name = "employees")
 public class Employee {
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "idemployee")
@@ -13,10 +15,10 @@ public class Employee {
     private String lastName;
     @Column(name = "contactnumber")
     private String contactNumber;
+    public ArrayList<Task> tasks;
 
 
-    public Employee() {
-    }
+
 
     public Employee(String firstName, String lastName, String contactNumber) {
         this.firstName = firstName;
