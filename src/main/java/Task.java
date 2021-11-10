@@ -9,25 +9,27 @@ public class Task {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idtask", nullable=false)
     private int id;
-    @Column(name = "description", length=100)
+    @Column(name = "description", length=100, nullable=false)
     private String description;
     @Column(name = "begindate", nullable=false)
     private LocalDate beginDate;
-    @Column(name = "enddate", nullable=true)
+    @Column(name = "enddate")
+    @Basic(optional = false)
     private LocalDate endDate;
+    @ManyToOne
+    private Employee employee;
 
 
     public Task() {
     }
 
-    public Task(String description, LocalDate endDate) {
+    public Task(String description) {
         this.description = description;
-        this.endDate = endDate;
     }
 
-    public Task(String description, LocalDate beginDate, LocalDate endDate) {
+    public Task(String description, LocalDate endDate) {
         this.description = description;
-        this.beginDate = beginDate;
+        this.beginDate = LocalDate.now();
         this.endDate = endDate;
     }
 
@@ -46,8 +48,11 @@ public class Task {
         return description;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setDescription(String description) throws Exception {
+        if(description==null||(description.length()>0 && description.length()<=100))
+            this.description = description;
+        else throw
+                new Exception("Error al modificar la descripcion");
     }
 
     public LocalDate getBeginDate() {

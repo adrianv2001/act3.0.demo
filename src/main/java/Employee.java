@@ -1,5 +1,6 @@
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "employees")
@@ -15,15 +16,25 @@ public class Employee {
     private String lastName;
     @Column(name = "contactnumber")
     private String contactNumber;
-    public ArrayList<Task> tasks;
+    @OneToOne
+    @JoinColumn(name="idcard")
+    private Card c;
+    @OneToMany(mappedBy = "employee")
+    private List<Task> ltask;
 
 
 
+    public void setCard(Card c) {
+        this.c = c;
+    }
 
+    public Employee(){
+    }
     public Employee(String firstName, String lastName, String contactNumber) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.contactNumber = contactNumber;
+        ltask=new ArrayList<>();
     }
 
     public String getFirstName() {
@@ -63,4 +74,12 @@ public class Employee {
                 ", contactNumber='" + contactNumber + '\'' +
                 '}';
     }
+
+    public void addTask(Task t){
+        ltask.add(t);
+    }
+    public void remTask(Task t){
+        ltask.remove(t);
+    }
+
 }
